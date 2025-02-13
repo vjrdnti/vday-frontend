@@ -1,0 +1,11 @@
+body {
+    text-align: center;
+    background-color: #ffcccc;
+}
+
+canvas {
+    border: 2px solid black;
+    background: url('assets/bg.avif') no-repeat center;
+    background-size: cover;
+}
+
