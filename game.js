@@ -35,6 +35,13 @@ document.addEventListener("keydown", (event) => {
     }
 
     let emote = null;
+    
+
+    if (event.key === "k") {
+        socket.emit("kiss");
+        animations.push({ x: players[socket.id].x, y: players[socket.id].y, text: ":3", time: 6 });
+    }
+    
     if (event.key === "k") emote = ":3";
     if (event.key === "s") emote = "Zzz";
     if (event.key === "m") emote = "mreow";
@@ -77,9 +84,15 @@ socket.on("gameOver", () => {
 
 socket.on("emote", (data) => {
     if (players[data.id]) {
-        animations[data.id] = { x: players[data.id].x, y: players[data.id].y, text: data.emote, time: 60 };
+        animations[data.id] = { 
+            x: players[data.id].x, 
+            y: players[data.id].y, 
+            text: data.text, 
+            time: 60 
+        };
     }
 });
+
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -107,4 +120,3 @@ function draw() {
     ctx.fillStyle = "pink";
     ctx.fillRect(10, 10, kissProgress * 20, 20);
 }
-
