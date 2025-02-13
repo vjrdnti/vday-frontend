@@ -30,10 +30,10 @@ document.addEventListener("keydown", (event) => {
     if (!players[socket.id]) return;
 
     let dx = 0, dy = 0;
-    if (event.key === "ArrowRight") dx = 10;
-    if (event.key === "ArrowLeft") dx = -10;
-    if (event.key === "ArrowUp") dy = -10;
-    if (event.key === "ArrowDown") dy = 10;
+    if (event.key === "ArrowRight") dx = 20;
+    if (event.key === "ArrowLeft") dx = -20;
+    if (event.key === "ArrowUp") dy = -20;
+    if (event.key === "ArrowDown") dy = 20;
 
     if (dx !== 0 || dy !== 0) {
         socket.emit("move", { x: players[socket.id].x + dx, y: players[socket.id].y + dy });
@@ -41,15 +41,19 @@ document.addEventListener("keydown", (event) => {
 
     if (event.key === "k") {
         socket.emit("kiss");
-        animations.push({ x: players[socket.id].x, y: players[socket.id].y, text: ":3", time: 60 });
+        animations.push({ x: players[socket.id].x, y: players[socket.id].y, text: ":3", time: 6 });
     }
 
     if (event.key === "s") {
-        animations.push({ x: players[socket.id].x, y: players[socket.id].y, text: "Zzz", time: 60 });
+        animations.push({ x: players[socket.id].x, y: players[socket.id].y, text: "Zzz", time: 6  });
+    }
+    
+    if (event.key === "m") {
+        animations.push({ x: players[socket.id].x, y: players[socket.id].y, text: "mreow", time: 6 });
     }
 
     if (event.key === "p") {
-        animations.push({ x: players[socket.id].x, y: players[socket.id].y, text: "purrrrr", time: 60 });
+        animations.push({ x: players[socket.id].x, y: players[socket.id].y, text: "purrrrr", time: 6 });
     }
 });
 
@@ -116,7 +120,7 @@ function draw() {
 
     animations.forEach((anim, index) => {
         ctx.font = "20px Arial";
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "yellow";
         ctx.fillText(anim.text, anim.x, anim.y);
         anim.time--;
         if (anim.time <= 0) animations.splice(index, 1);
@@ -127,20 +131,4 @@ function draw() {
     ctx.fillStyle = "pink";
     ctx.fillRect(10, 10, kissProgress * 20, 20);
 }
-
-document.getElementById("chatSend").addEventListener("click", () => {
-    const chatInput = document.getElementById("chatInput");
-    const msg = chatInput.value.trim();
-
-    if (msg) {
-        socket.emit("message", msg);
-        chatInput.value = "";
-    }
-});
-
-document.getElementById("chatInput").addEventListener("keypress", (event) => {
-    if (event.key === "Enter") {
-        document.getElementById("chatSend").click();
-    }
-});
 
